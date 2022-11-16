@@ -1,0 +1,14 @@
+{
+    "name": "gorda2",
+    "version": "0.0.1",
+    "description": "Gorda2 time tracker frontend",
+    "main": "main.js",
+    "scripts": {
+      "start": "electron ."
+    },
+    "author": "shkiv",
+    "devDependencies": {
+      "electron": "^21.2.3"
+    }
+  }
+  
