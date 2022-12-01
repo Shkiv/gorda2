@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 
 function createWindow () {
@@ -14,6 +14,14 @@ function createWindow () {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+  ipcMain.on('start-interval', () => {
+    console.log("Interval started!")
+  })
+
+  ipcMain.on('stop-interval', () => {
+    console.log("Interval stopped!")
+  })
 }
 
 app.whenReady().then(() => {
