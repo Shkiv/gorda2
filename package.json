@@ -1,14 +1,16 @@
 {
-    "name": "gorda2",
-    "version": "0.0.1",
-    "description": "Gorda2 time tracker frontend",
-    "main": "main.js",
-    "scripts": {
-      "start": "electron ."
-    },
-    "author": "shkiv",
-    "devDependencies": {
-      "electron": "^21.2.3"
-    }
+  "name": "gorda2",
+  "version": "0.0.1",
+  "description": "Gorda2 time tracker frontend",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "shkiv",
+  "dependencies": {
+    "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "electron": "^22.0.0"
   }
-  
+}
