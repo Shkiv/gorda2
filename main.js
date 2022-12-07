@@ -28,13 +28,14 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-let Interval = require('./interval.js')
-let currentInterval
+const Interval = require('./interval.js')
+let currentInterval = new Interval()
 
 ipcMain.on('start-interval', () => {
-  currentInterval = new Interval()
+  currentInterval.start()
 })
 
 ipcMain.on('stop-interval', () => {
-  console.log("Interval stopped!")
+  currentInterval.stop()
+  currentInterval = new Interval()
 })
