@@ -29,13 +29,18 @@ app.on('window-all-closed', function () {
 })
 
 const Interval = require('./interval.js')
-let currentInterval = new Interval()
+let currentInterval = null
 
 ipcMain.on('start-interval', () => {
-  currentInterval.start()
+  if (currentInterval === null) {
+    currentInterval = new Interval()
+    currentInterval.start()
+  }
 })
 
 ipcMain.on('stop-interval', () => {
-  currentInterval.stop()
-  currentInterval = new Interval()
+  if (currentInterval !== null) {
+    currentInterval.stop()
+    currentInterval = null
+  }
 })
