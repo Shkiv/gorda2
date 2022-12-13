@@ -1,7 +1,7 @@
-const {app, BrowserWindow, ipcMain} = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
-function createWindow () {
+function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 480,
     height: 800,
@@ -29,6 +29,7 @@ app.on('window-all-closed', function () {
 })
 
 const Interval = require('./interval.js')
+new Interval().initDb()
 let currentInterval = null
 
 ipcMain.on('start-interval', () => {
@@ -44,3 +45,5 @@ ipcMain.on('stop-interval', () => {
     currentInterval = null
   }
 })
+
+let intervalList = new Interval().all
