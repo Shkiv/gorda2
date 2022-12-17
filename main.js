@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const Interval = require('./interval.js')
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -14,6 +15,9 @@ function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+  Interval.initDb()
+  Interval.updateAll()
 }
 
 app.whenReady().then(() => {
@@ -28,8 +32,6 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-const Interval = require('./interval.js')
-new Interval().initDb()
 let currentInterval = null
 
 ipcMain.on('start-interval', () => {
@@ -45,5 +47,3 @@ ipcMain.on('stop-interval', () => {
     currentInterval = null
   }
 })
-
-let intervalList = new Interval().all
