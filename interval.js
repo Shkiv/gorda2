@@ -1,6 +1,9 @@
 const sqlite3 = require('sqlite3')
+const EventEmitter = require('node:events')
 
 class Interval {
+    static emitter = new EventEmitter()
+    
     static initDb() {
         const db = Interval.#db
         db.run("CREATE TABLE IF NOT EXISTS intervals (uid TEXT, start_time INTEGER, stop_time INTEGER)")
@@ -52,8 +55,9 @@ class Interval {
 
     static updateAll() {
         const db = Interval.#db
-        db.all("SELECT * FROM intervals", (err, rows) => {
+        db.all("SELECT * FROM intervals", (rows) => {
             this.all = rows
+            this.emitter.emit('intervals-updated')
         })
         db.close()
     }

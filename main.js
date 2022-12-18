@@ -47,3 +47,9 @@ ipcMain.on('stop-interval', () => {
     currentInterval = null
   }
 })
+
+const emitter = Interval.emitter
+
+emitter.on('intervals-updated', () => {
+  console.log("Interval list updated!")
+})
