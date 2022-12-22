@@ -5,6 +5,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   stopInterval: () => ipcRenderer.send('stop-interval')
 })
 
-ipcRenderer.on('intervals', (event, message) => {
+ipcRenderer.on('intervals-updated', (event, message) => {
   console.log(message)
 })

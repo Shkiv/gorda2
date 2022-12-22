@@ -55,7 +55,7 @@ class Interval {
 
     static updateAll() {
         const db = Interval.#db
-        db.all("SELECT * FROM intervals", (rows) => {
+        db.all("SELECT * FROM intervals", (error, rows) => {
             this.all = rows
             this.emitter.emit('intervals-updated')
         })

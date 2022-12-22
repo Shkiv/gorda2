@@ -1,9 +1,10 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const Interval = require('./interval.js')
+let mainWindow
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 480,
     height: 800,
     webPreferences: {
@@ -51,5 +52,5 @@ ipcMain.on('stop-interval', () => {
 const emitter = Interval.emitter
 
 emitter.on('intervals-updated', () => {
-  console.log("Interval list updated!")
+  mainWindow.webContents.send('intervals-updated', Interval.all)
 })
