@@ -18,7 +18,6 @@ function createWindow() {
   // mainWindow.webContents.openDevTools()
 
   Interval.initDb()
-  Interval.updateAll()
 }
 
 app.whenReady().then(() => {
@@ -39,6 +38,7 @@ ipcMain.on('start-interval', () => {
   if (currentInterval === null) {
     currentInterval = new Interval()
     currentInterval.start()
+    Interval.updateAll()
   }
 })
 
@@ -46,7 +46,12 @@ ipcMain.on('stop-interval', () => {
   if (currentInterval !== null) {
     currentInterval.stop()
     currentInterval = null
+    Interval.updateAll()
   }
+})
+
+ipcMain.on('update-intervals', () => {
+  Interval.updateAll()
 })
 
 const emitter = Interval.emitter

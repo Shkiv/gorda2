@@ -1,4 +1,4 @@
-class Index {
+class MainView {
     constructor() {
         let startButton = document.createElement("button")
         startButton.textContent = "Start"
@@ -6,14 +6,19 @@ class Index {
             window.electronAPI.startInterval()
         })
         document.body.appendChild(startButton)
-        
+
         let stopButton = document.createElement("button")
         stopButton.textContent = "Stop"
         stopButton.addEventListener('click', () => {
             window.electronAPI.stopInterval()
         })
         document.body.appendChild(stopButton)
+
+        let intervalTable = document.createElement("table")
+        intervalTable.id = "intervalTable"
+        document.body.appendChild(intervalTable)
+        window.electronAPI.updateIntervals()
     }
 }
 
-const index = new Index()
+const mainView = new MainView()
