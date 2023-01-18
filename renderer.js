@@ -19,6 +19,23 @@ class MainView {
         document.body.appendChild(intervalTable)
         window.electronAPI.updateIntervals()
     }
+
+    update(message) {
+        let intervalTable = document.createElement("table")
+        intervalTable.id = "intervalTable"
+        let oldIntervalTable = document.getElementById("intervalTable")
+
+        message.forEach(interval => {
+            let cell = document.createElement("td")
+            let row = document.createElement("tr")
+            cell.textContent = JSON.stringify(interval)
+            row.appendChild(cell)
+            intervalTable.appendChild(row)
+        })
+
+        oldIntervalTable.replaceWith(intervalTable)
+    }
 }
 
 const mainView = new MainView()
+onmessage = (event) => mainView.update(event.data)
