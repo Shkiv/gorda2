@@ -20,15 +20,16 @@ class MainView {
         window.electronAPI.updateIntervals()
     }
 
-    update(message) {
+    update(intervals) {
         let intervalTable = document.createElement("table")
         intervalTable.id = "intervalTable"
         let oldIntervalTable = document.getElementById("intervalTable")
 
-        message.forEach(interval => {
+        intervals.forEach(interval => {
             let cell = document.createElement("td")
+            cell.innerHTML = "Started: " + new Date(interval.start_time).getHours() + ":" + new Date(interval.start_time).getMinutes()
+                + "<br>Stopped: " + new Date(interval.stop_time).getHours() + ":" + new Date(interval.stop_time).getMinutes()
             let row = document.createElement("tr")
-            cell.textContent = JSON.stringify(interval)
             row.appendChild(cell)
             intervalTable.appendChild(row)
         })
