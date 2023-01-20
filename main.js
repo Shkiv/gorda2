@@ -38,7 +38,7 @@ ipcMain.on('start-interval', () => {
   if (currentInterval === null) {
     currentInterval = new Interval()
     currentInterval.start()
-    Interval.updateAll()
+    Interval.updateToday()
   }
 })
 
@@ -46,16 +46,16 @@ ipcMain.on('stop-interval', () => {
   if (currentInterval !== null) {
     currentInterval.stop()
     currentInterval = null
-    Interval.updateAll()
+    Interval.updateToday()
   }
 })
 
 ipcMain.on('update-intervals', () => {
-  Interval.updateAll()
+  Interval.updateToday()
 })
 
 const emitter = Interval.emitter
 
 emitter.on('intervals-updated', () => {
-  mainWindow.webContents.send('intervals-updated', Interval.all)
+  mainWindow.webContents.send('intervals-updated', Interval.today)
 })

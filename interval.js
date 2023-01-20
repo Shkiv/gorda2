@@ -3,7 +3,7 @@ const EventEmitter = require('node:events')
 
 class Interval {
     static emitter = new EventEmitter()
-    
+
     static initDb() {
         const db = Interval.#db
         db.run("CREATE TABLE IF NOT EXISTS intervals (uid TEXT, start_time INTEGER, stop_time INTEGER)")
@@ -53,10 +53,14 @@ class Interval {
         }
     }
 
-    static updateAll() {
+    static updateToday() {
         const db = Interval.#db
-        db.all("SELECT * FROM intervals", (error, rows) => {
-            this.all = rows
+        const date = new Date()
+        db.all("SELECT * FROM intervals WHERE start_time > $today AND start_time <= $tomorrow", {
+            $today: date.setHours(0, 0, 0, 0),
+            $tomorrow: date.setHours(23, 59, 59, 999),
+        }, (_error, rows) => {
+            this.today = rows
             this.emitter.emit('intervals-updated')
         })
         db.close()
