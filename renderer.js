@@ -14,6 +14,11 @@ class MainView {
         })
         document.body.appendChild(stopButton)
 
+        let activeIntervalTable = document.createElement("table")
+        activeIntervalTable.id = "activeIntervalTable"
+        document.body.appendChild(activeIntervalTable)
+        window.electronAPI.updateActiveInterval()
+
         let intervalTable = document.createElement("table")
         intervalTable.id = "intervalTable"
         document.body.appendChild(intervalTable)

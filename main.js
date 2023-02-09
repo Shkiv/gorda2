@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
-const Interval = require('./interval.js')
+const Intervals = require('./intervals.js')
 let mainWindow
 
 function createWindow() {
@@ -16,8 +16,6 @@ function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
-
-  Interval.initDb()
 }
 
 app.whenReady().then(() => {
@@ -32,30 +30,26 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-let currentInterval = null
+const intervals = new Intervals()
 
-ipcMain.on('start-interval', () => {
-  if (currentInterval === null) {
-    currentInterval = new Interval()
-    currentInterval.start()
-    Interval.updateToday()
-  }
+ipcMain.on('start-active-interval', () => {
+  intervals.startActive()
 })
 
-ipcMain.on('stop-interval', () => {
-  if (currentInterval !== null) {
-    currentInterval.stop()
-    currentInterval = null
-    Interval.updateToday()
-  }
+ipcMain.on('stop-active-interval', () => {
+  intervals.stopActive()
 })
 
 ipcMain.on('update-intervals', () => {
-  Interval.updateToday()
+  intervals.updateToday()
 })
 
-const emitter = Interval.emitter
+const emitter = intervals.emitter
 
 emitter.on('intervals-updated', () => {
-  mainWindow.webContents.send('intervals-updated', Interval.today)
+  mainWindow.webContents.send('intervals-updated', intervals.today)
+})
+
+emitter.on('active-interval-updated', () => {
+  mainWindow.webContents.send('intervals-updated', intervals.activeInterval)
 })

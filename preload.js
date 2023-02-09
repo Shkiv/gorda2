@@ -1,8 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  startInterval: () => ipcRenderer.send('start-interval'),
-  stopInterval: () => ipcRenderer.send('stop-interval'),
+  startInterval: () => ipcRenderer.send('start-active-interval'),
+  stopInterval: () => ipcRenderer.send('stop-active-interval'),
+  updateActiveInterval: () => ipcRenderer.send('update-active-interval'),
   updateIntervals: () => ipcRenderer.send('update-intervals')
 })
 
