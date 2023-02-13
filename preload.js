@@ -7,4 +7,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   updateIntervals: () => ipcRenderer.send('update-intervals')
 })
 
-ipcRenderer.on('intervals-updated', (event, message) => window.postMessage(message, '/'))
+ipcRenderer.on('intervals-updated', (_event, message) => {
+  message.data.type = 'intervals-updated'
+  window.postMessage(message, '/')
+})
+
+ipcRenderer.on('acitve-interval-updated', (_event, message) => {
+  message.data.type = 'acitve-interval-updated'
+  window.postMessage(message, '/')
+})

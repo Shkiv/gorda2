@@ -19,6 +19,7 @@ class Intervals {
         this.activeInterval.stop()
         this.activeInterval = null
         this.emitter.emit('active-interval-updated')
+        this.emitter.emit('intervals-updated')
     }
 
     updateToday() {
