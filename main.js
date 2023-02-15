@@ -51,5 +51,5 @@ emitter.on('intervals-updated', () => {
 })
 
 emitter.on('active-interval-updated', () => {
-  mainWindow.webContents.send('acitve-interval-updated', intervals.activeInterval)
+  mainWindow.webContents.send('acitve-interval-updated', intervals.active)
 })

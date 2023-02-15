@@ -2,6 +2,7 @@ const DB = require('./db.js')
 
 class Interval {
     constructor() {
+        this.type = Interval.name
         this.startTime = Date.now()
 
         const db = new DB()

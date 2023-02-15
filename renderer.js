@@ -44,4 +44,7 @@ class MainView {
 }
 
 const mainView = new MainView()
-onmessage = (event) => mainView.update(event.data)
+onmessage = (event) => {
+    if (event.data == null) return
+    if (event.data.type == "TodayDTO") mainView.update(event.data.rows)
+}

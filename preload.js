@@ -8,11 +8,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 })
 
 ipcRenderer.on('intervals-updated', (_event, message) => {
-  message.data.type = 'intervals-updated'
   window.postMessage(message, '/')
 })
 
 ipcRenderer.on('acitve-interval-updated', (_event, message) => {
-  message.data.type = 'acitve-interval-updated'
   window.postMessage(message, '/')
 })

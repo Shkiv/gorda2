@@ -1,6 +1,7 @@
 const DB = require('./db.js')
 const EventEmitter = require('node:events')
 const Interval = require('./interval.js')
+const TodayDTO = require('./dto/today.js')
 
 class Intervals {
     constructor() {
@@ -11,13 +12,13 @@ class Intervals {
     }
 
     startActive() {
-        this.activeInterval = new Interval()
+        this.active = new Interval()
         this.emitter.emit('active-interval-updated')
     }
 
     stopActive() {
-        this.activeInterval.stop()
-        this.activeInterval = null
+        if (this.active !== null) this.active.stop()
+        this.active = null
         this.emitter.emit('active-interval-updated')
         this.emitter.emit('intervals-updated')
     }
@@ -29,7 +30,7 @@ class Intervals {
             $today: date.setHours(0, 0, 0, 0),
             $tomorrow: date.setHours(23, 59, 59, 999),
         }, (_error, rows) => {
-            this.today = rows
+            this.today = new TodayDTO(rows)
             this.emitter.emit('intervals-updated')
         })
         db.close()
