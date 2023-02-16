@@ -6,13 +6,14 @@ const TodayDTO = require('./dto/today.js')
 class Intervals {
     constructor() {
         this.emitter = new EventEmitter()
+        this.active = null
         const db = new DB()
         db.run("CREATE TABLE IF NOT EXISTS intervals (uid TEXT, start_time INTEGER, stop_time INTEGER, is_active INTEGER)")
         db.close()
     }
 
     startActive() {
-        this.active = new Interval()
+        if (this.active == null) this.active = new Interval()
         this.emitter.emit('active-interval-updated')
     }
 
@@ -20,7 +21,7 @@ class Intervals {
         if (this.active !== null) this.active.stop()
         this.active = null
         this.emitter.emit('active-interval-updated')
-        this.emitter.emit('intervals-updated')
+        this.updateToday()
     }
 
     updateToday() {
