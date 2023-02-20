@@ -18,16 +18,20 @@ class Intervals {
     }
 
     stopActive() {
-        if (this.active !== null) this.active.stop()
+        if (this.active !== null) {
+            this.active.emitter.on('interval-stopped', () => {
+                this.updateToday()
+            })
+            this.active.stop()
+        }
         this.active = null
         this.emitter.emit('active-interval-updated')
-        this.updateToday()
     }
 
     updateToday() {
         const db = new DB()
         const date = new Date()
-        db.all("SELECT * FROM intervals WHERE start_time > $today AND start_time <= $tomorrow", {
+        db.all("SELECT * FROM intervals WHERE start_time > $today AND start_time <= $tomorrow AND is_active != TRUE", {
             $today: date.setHours(0, 0, 0, 0),
             $tomorrow: date.setHours(23, 59, 59, 999),
         }, (_error, rows) => {

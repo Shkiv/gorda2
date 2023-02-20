@@ -1,7 +1,9 @@
 const DB = require('./db.js')
+const EventEmitter = require('node:events')
 
 class Interval {
     constructor() {
+        this.emitter = new EventEmitter()
         this.type = Interval.name
         this.startTime = Date.now()
 
@@ -29,6 +31,7 @@ class Interval {
                 $time: this.stopTime
             })
             stmt.finalize()
+            this.emitter.emit('interval-stopped')
         })
         db.close()
 
