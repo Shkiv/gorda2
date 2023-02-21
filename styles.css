@@ -15,7 +15,7 @@ table {
     width: 100%;
 }
 
-table>tr {
+table>tbody>tr {
     background: #fff;
     color: #000;
 }

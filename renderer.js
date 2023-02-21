@@ -20,15 +20,22 @@ class MainView {
         window.electronAPI.updateActiveInterval()
 
         let intervalTable = document.createElement("table")
-        intervalTable.id = "intervalTable"
         document.body.appendChild(intervalTable)
+
+        let intervalHead = document.createElement("thead")
+        intervalTable.appendChild(intervalHead)
+
+        let intervalBody = document.createElement("tbody")
+        intervalBody.id = "intervalBody"
+        intervalTable.appendChild(intervalBody)
+
         window.electronAPI.updateIntervals()
     }
 
     update(intervals) {
-        let intervalTable = document.createElement("table")
-        intervalTable.id = "intervalTable"
-        let oldIntervalTable = document.getElementById("intervalTable")
+        let intervalBody = document.createElement("tbody")
+        intervalBody.id = "intervalBody"
+        let oldIntervalBody = document.getElementById("intervalBody")
 
         intervals.forEach(interval => {
             let cell = document.createElement("td")
@@ -36,15 +43,16 @@ class MainView {
                 + "<br>Stopped: " + new Date(interval.stop_time).getHours() + ":" + new Date(interval.stop_time).getMinutes()
             let row = document.createElement("tr")
             row.appendChild(cell)
-            intervalTable.appendChild(row)
+            intervalBody.appendChild(row)
         })
 
-        oldIntervalTable.replaceWith(intervalTable)
+        oldIntervalBody.replaceWith(intervalBody)
     }
 }
 
 const mainView = new MainView()
 onmessage = (event) => {
+    console.log("Event: " + JSON.stringify(event.data))
     if (event.data == null) return
     if (event.data.type == "TodayDTO") mainView.update(event.data.rows)
 }
