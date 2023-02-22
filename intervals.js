@@ -9,7 +9,6 @@ class Intervals {
         this.active = null
         const db = new DB()
         db.run("CREATE TABLE IF NOT EXISTS intervals (uid TEXT, start_time INTEGER, stop_time INTEGER, is_active INTEGER)")
-        db.close()
     }
 
     startActive() {
@@ -38,7 +37,6 @@ class Intervals {
             this.today = new TodayDTO(rows)
             this.emitter.emit('intervals-updated')
         })
-        db.close()
     }
 }
 
