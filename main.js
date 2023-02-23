@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const DB = require('./db.js')
 const Intervals = require('./intervals.js')
 let mainWindow
 
@@ -28,6 +29,10 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('quit', function () {
+  DB.close()
 })
 
 const intervals = new Intervals()

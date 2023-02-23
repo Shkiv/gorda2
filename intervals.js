@@ -4,11 +4,12 @@ const Interval = require('./interval.js')
 const TodayDTO = require('./dto/today.js')
 
 class Intervals {
+    #db = DB.instance
+
     constructor() {
         this.emitter = new EventEmitter()
         this.active = null
-        const db = new DB()
-        db.run("CREATE TABLE IF NOT EXISTS intervals (uid TEXT, start_time INTEGER, stop_time INTEGER, is_active INTEGER)")
+        this.#db.run("CREATE TABLE IF NOT EXISTS intervals (uid TEXT, start_time INTEGER, stop_time INTEGER, is_active INTEGER)")
     }
 
     startActive() {
@@ -28,9 +29,8 @@ class Intervals {
     }
 
     updateToday() {
-        const db = new DB()
         const date = new Date()
-        db.all("SELECT * FROM intervals WHERE start_time > $today AND start_time <= $tomorrow AND is_active != TRUE", {
+        this.#db.all("SELECT * FROM intervals WHERE start_time > $today AND start_time <= $tomorrow AND is_active != TRUE", {
             $today: date.setHours(0, 0, 0, 0),
             $tomorrow: date.setHours(23, 59, 59, 999),
         }, (_error, rows) => {
